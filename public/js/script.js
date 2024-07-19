@@ -1,15 +1,12 @@
 const socket = io();
 
-console.log("hey");
-
 if (navigator.geolocation) {
     navigator.geolocation.watchPosition((position) => {
         const { latitude, longitude } = position.coords;
         socket.emit('sendLocation', { latitude, longitude });
-    },
-        (err) => {
-            console.log(err);
-        }, {
+    }, (err) => {
+        console.log(err);
+    }, {
         enableHighAccuracy: true,
         timeout: 5000,
         maximumAge: 0,
@@ -32,7 +29,6 @@ socket.on('receiveLocation', (data) => {
         markers[id] = L.marker([latitude, longitude]).addTo(map);
     }
 });
-
 
 socket.on('user-disconnected', (id) => {
     if (markers[id]) {
